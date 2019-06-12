@@ -229,9 +229,9 @@ var get_precos = function(ddd, uf, cidade){
         btn.val( "Continuar" );
 
         if ($(window).width() > 990) {
-          var wrap_box_planos = $(".wrap.box-planos.").children();
+          var wrap_box_planos = $(".wrap.box-planos.sem_promocao").children();
         }else{
-          var wrap_box_planos = $(".c_slide_produtos.").children().children().children();
+          var wrap_box_planos = $(".c_slide_produtos.sem_promocao").children().children().children();
         }
 
         $('.velocidade-destaque').html(wrap_box_planos.find(".box-c.key").find(".box-titulo-destaque").html());
