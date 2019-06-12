@@ -132,6 +132,9 @@ function popula_cards(planos, classe, uf, cidade, ddd){
       });
 
       for (var i = 0; i < 2; i++) {
+        if (i == 1) {
+          continue;
+        }
         lista[i].html("<strong>"+planos[index]["info_plano"]["detalhe"][i].replace(/ .*/,'')+"</strong>"+planos[index]["info_plano"]["detalhe"][i].replace(planos[index]["info_plano"]["detalhe"][i].replace(/ .*/,''),''));
       }
 
