@@ -102,13 +102,10 @@ function popula_cards(planos, classe, uf, cidade, ddd){
       // app.empty();
       
 
-      // if ( planos[index]["info_plano"]["apps_add"] != null ) {
+      if ( planos[index]["info_plano"]["apps_add"] != null ) {
 
-      //   $(this).find('.txt_velocidade').html( planos[index]["info_plano"]["apps_add"]["titulo"] );
-
-      //   for (var a = 0; a < planos[index]["info_plano"]["apps_add"]["total"]; a++) {
-      //       app.append("<img class='c_icon_box' src='https://automatuslab.blob.core.windows.net/vivofluxoonline/"+planos[index]["info_plano"]["apps_add"]["imagens"][a]+"'>");
-      //   }
+        $(this).find('.txt_velocidade').html( planos[index]["info_plano"]["apps_add"]["titulo"] );
+      }
 
       // }else{
 
@@ -249,6 +246,8 @@ $('.toggle_speed').on('click', function() {
 
   $('.sem_promocao').toggleClass('none');
   $('.com_promocao').toggleClass('none');
+
+
 });
 
 
