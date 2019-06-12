@@ -92,14 +92,6 @@ function popula_cards(planos, classe, uf, cidade, ddd){
       $(this).find('.box-preco-centavos-destaque').html(","+trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[1]+"*<br>");
       $(this).find('.bonus_txt').html(planos[index]["info_plano"]["dados_detalhe"]);
 
-
-      
-
-
-
-
-      // var app = $(this).find(".wrap.c_box_icons");
-      // app.empty();
       
 
       if ( planos[index]["info_plano"]["apps_add"] != null ) {
@@ -107,45 +99,19 @@ function popula_cards(planos, classe, uf, cidade, ddd){
         $(this).find('.txt_velocidade').html( planos[index]["info_plano"]["apps_add"]["titulo"] );
       }
 
-      // }else{
 
-      //     if ( planos[index]["info_plano"]["apps"] != null ) {
 
-      //       for (var a = 0; a < planos[index]["info_plano"]["apps"]["total"]; a++) {
-      //             app.append("<img class='c_icon_box' src='https://automatuslab.blob.core.windows.net/vivofluxoonline/"+planos[index]["info_plano"]["apps"]["imagens"][a]+"'>");
-      //         }
-      //     }
-
-      // }
+      var box_topicos_ver_mais = $(this).find(".wrap.box-topicos.ver_mais.none").last();
       
 
+      for (var d = 0; d < planos[index]["info_plano"]["detalhe"].length; d++) {
+          if (d == 0 || d == 1) {
+            continue;
+          }
 
-      cont_list = 0
-      var lista = [];
-
-      $(this).find(".wrap.box-topicos.ver_mais .box-topico-txt").each(function(ind, element) {
-        lista[cont_list] = $(this);
-        cont_list++;
-      });
-
-      for (var i = 0; i < 2; i++) {
-        if (i == 1) {
-          continue;
-        }
-        lista[i].html("<strong>"+planos[index]["info_plano"]["detalhe"][i].replace(/ .*/,'')+"</strong>"+planos[index]["info_plano"]["detalhe"][i].replace(planos[index]["info_plano"]["detalhe"][i].replace(/ .*/,''),''));
+          box_topicos_ver_mais.after('<div class="wrap box-topicos ver_mais none"><div class="set c_ontop"><img src="https://uploads-ssl.webflow.com/5babd501fb0eee25943c30a1/5ce58cbd98314d97a5f11baa_check.png" alt="Modem Grátis" class="box-topico-icon c_menor"></div><div class="set apps_box"><div class="box-topico-txt">'+"<strong>"+planos[index]["info_plano"]["detalhe"][d].replace(/ .*/,'')+"</strong><br><span class='topico_subtext'>"+planos[index]["info_plano"]["detalhe"][d].replace(planos[index]["info_plano"]["detalhe"][d].replace(/ .*/,''),'')+'</span></div></div></div>');
       }
 
-
-      // var app = $(this).find(".wrap.c_box_icons");
-      // app.empty();
-      // if (planos[index]["info_plano"]["apps"] != null) {
-
-      //   // $(this).find(".wrap.box-topicos.last").find(".box-topico-txt strong").html(planos[index]["info_plano"]["apps"]["total"]+" apps ");
-
-      //   for (var a = 0; a < planos[index]["info_plano"]["apps"]["total"]; a++) {
-      //         app.append("<img class='c_icon_box' src='https://automatuslab.blob.core.windows.net/vivofluxoonline/"+planos[index]["info_plano"]["apps"]["imagens"][a]+"'>");
-      //     }
-      // }
 
       $(this).find("a.abre_loja").attr("data-preco", planos[index]["valores_plano"]["valor_oferta"]);
       $(this).find("a.abre_loja").attr("data-ddd", ddd);
