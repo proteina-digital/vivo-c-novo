@@ -207,7 +207,7 @@ var get_precos = function(ddd, uf, cidade){
           cont++;
         }
 
-        if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "TRUE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "promo-app") {
+        if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "FALSE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "promo-app") {
           planos_promo[cont_promo] = data.portfolio.controle[i];
           cont_promo++;
         }
