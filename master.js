@@ -202,12 +202,12 @@ var get_precos = function(ddd, uf, cidade){
       
 
       for (var i = 0; i < data.portfolio.controle.length; i++) {
-        if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "TRUE") {
+        if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "TRUE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "default") {
           planos[cont] = data.portfolio.controle[i];
           cont++;
         }
 
-        if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "FALSE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "promo-app") {
+        if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "TRUE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "promo-app") {
           planos_promo[cont_promo] = data.portfolio.controle[i];
           cont_promo++;
         }
