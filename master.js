@@ -98,28 +98,28 @@ function popula_cards(planos, classe, uf, cidade, ddd){
 
 
 
-      var app = $(this).find(".wrap.c_box_icons");
-      app.empty();
+      // var app = $(this).find(".wrap.c_box_icons");
+      // app.empty();
       
 
-      if ( planos[index]["info_plano"]["apps_add"] != null ) {
+      // if ( planos[index]["info_plano"]["apps_add"] != null ) {
 
-        $(this).find('.txt_velocidade').html( planos[index]["info_plano"]["apps_add"]["titulo"] );
+      //   $(this).find('.txt_velocidade').html( planos[index]["info_plano"]["apps_add"]["titulo"] );
 
-        for (var a = 0; a < planos[index]["info_plano"]["apps_add"]["total"]; a++) {
-            app.append("<img class='c_icon_box' src='https://automatuslab.blob.core.windows.net/vivofluxoonline/"+planos[index]["info_plano"]["apps_add"]["imagens"][a]+"'>");
-        }
+      //   for (var a = 0; a < planos[index]["info_plano"]["apps_add"]["total"]; a++) {
+      //       app.append("<img class='c_icon_box' src='https://automatuslab.blob.core.windows.net/vivofluxoonline/"+planos[index]["info_plano"]["apps_add"]["imagens"][a]+"'>");
+      //   }
 
-      }else{
+      // }else{
 
-          if ( planos[index]["info_plano"]["apps"] != null ) {
+      //     if ( planos[index]["info_plano"]["apps"] != null ) {
 
-            for (var a = 0; a < planos[index]["info_plano"]["apps"]["total"]; a++) {
-                  app.append("<img class='c_icon_box' src='https://automatuslab.blob.core.windows.net/vivofluxoonline/"+planos[index]["info_plano"]["apps"]["imagens"][a]+"'>");
-              }
-          }
+      //       for (var a = 0; a < planos[index]["info_plano"]["apps"]["total"]; a++) {
+      //             app.append("<img class='c_icon_box' src='https://automatuslab.blob.core.windows.net/vivofluxoonline/"+planos[index]["info_plano"]["apps"]["imagens"][a]+"'>");
+      //         }
+      //     }
 
-      }
+      // }
       
 
 
