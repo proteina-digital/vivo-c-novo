@@ -157,10 +157,6 @@ function popula_cards(planos, classe, uf, cidade, ddd){
 
     });
 
-    $('.velocidade-destaque').html(wrap_box_planos.find(".box-c.key").find(".box-titulo-destaque").html());
-    $(".c_texto.c_preco").empty().html( wrap_box_planos.find(".box-c.key").find('.box-preco-valor-destaque').html() );
-    $(".c_texto.c_centavos").empty().html( wrap_box_planos.find(".box-c.key").find('.box-preco-centavos-destaque').html()  );
-
 
     var destaque_btn = wrap_box_planos.find(".box-c.key").find(".abre_loja");
 
@@ -231,6 +227,16 @@ var get_precos = function(ddd, uf, cidade){
     },
     complete: function(){
         btn.val( "Continuar" );
+
+        if ($(window).width() > 990) {
+          var wrap_box_planos = $(".wrap.box-planos.").children();
+        }else{
+          var wrap_box_planos = $(".c_slide_produtos.").children().children().children();
+        }
+
+        $('.velocidade-destaque').html(wrap_box_planos.find(".box-c.key").find(".box-titulo-destaque").html());
+        $(".c_texto.c_preco").empty().html( wrap_box_planos.find(".box-c.key").find('.box-preco-valor-destaque').html() );
+        $(".c_texto.c_centavos").empty().html( wrap_box_planos.find(".box-c.key").find('.box-preco-centavos-destaque').html()  );
     }
   });     
 }
