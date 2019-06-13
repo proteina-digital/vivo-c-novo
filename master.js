@@ -51,7 +51,7 @@ $(document).on('change', '.escolha-ddd', function(event) {
 
 function checa_cookie_ddd(){
   if (readCookie('ddd') && readCookie('uf')) {
-  	console.log(readCookie('uf'));
+    console.log(readCookie('uf'));
       $(".modal-ddd").css('display', 'none');
       // $(".place-uf").html(readCookie('uf'));
       $(".place-uf").html(`${readCookie('uf')} (${readCookie('ddd')})`);
@@ -205,11 +205,11 @@ var get_precos = function(ddd, uf, cidade){
         $(".c_texto.c_preco").empty().html( wrap_box_planos.find(".box-c.key").find('.box-preco-valor-destaque').html() );
         $(".c_texto.c_centavos").empty().html( wrap_box_planos.find(".box-c.key").find('.box-preco-centavos-destaque').html()  );
 
-		var destaque_btn = wrap_box_planos.find(".box-c.key").find(".abre_loja");
+    var destaque_btn = wrap_box_planos.find(".box-c.key").find(".abre_loja");
 
-	    $("a.c_btn.c_shadow.menor.amarelo.abre_loja.cta.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
+      $("a.c_btn.c_shadow.menor.amarelo.abre_loja.cta.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
 
-	    $("a.c_btn.c_shadow.menor.amarelo.abre_loja.no-shadow.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
+      $("a.c_btn.c_shadow.menor.amarelo.abre_loja.no-shadow.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
 
     }
   });     
@@ -230,8 +230,6 @@ $('.toggle_speed').on('click', function() {
 
 });
 
-
-
 $('.mais_ben_btn').on('click', function() {
   $(this).parent().find('.toggle_last').toggleClass('last');
   $(this).parent().find('.ver_mais').toggleClass('none');
@@ -247,6 +245,16 @@ $('form[name="wf-form-Formulario-DDD"]').submit(function(event) {
   get_precos(ddd, uf, cidade);
   event.preventDefault();
   return false;
+});
+
+
+
+$(document).on('click', '.ghost_ddd', function(event) {
+  $('.modal-ddd.in_c').css('display', 'none');
+
+  if (checa_cookie_ddd() == false) {
+    get_precos(21, 'RJ', null);
+  }
 });
 
 $(document).on('click', '.fechar-modal-ddd', function(event) {
