@@ -103,7 +103,7 @@
 
         var box_topicos_ver_mais = $(this).find(".wrap.box-topicos.ver_mais.none").last();
         
-        var detalhes_lista = $(".box-planos").find(".box-c").find(".beneficios_dinamicos");
+        var detalhes_lista = $(".box-c").find(".beneficios_dinamicos");
         detalhes_lista.find(".ver_mais").not('.first').remove();
         for (var d = 0; d < planos[index]["info_plano"]["detalhe"].length; d++) {
           if (d == 0 || d == 1) {
