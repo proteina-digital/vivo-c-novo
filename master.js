@@ -43,6 +43,8 @@ $(document).on('change', '.escolha-estado', function(event) {
     }
   }
 
+
+
 });
 
 $(document).on('change', '.escolha-ddd', function(event) {
@@ -54,7 +56,6 @@ function checa_cookie_ddd(){
     console.log(readCookie('uf'));
       $(".modal-ddd").css('display', 'none');
       // $(".place-uf").html(readCookie('uf'));
-      $(".place-uf").html(`${readCookie('uf')} (${readCookie('ddd')})`);
       get_precos(readCookie('ddd'), readCookie('uf'), null);
       return true;
   }else{
@@ -140,6 +141,7 @@ var get_precos = function(ddd, uf, cidade){
 
   console.log(serializeDados);
 
+
   $.ajax({
     url: 'https://catalogo-vivo.automatuslab.com/api/Catalogo/DisponibilidadeMovel',
     dataType: 'json',
@@ -188,6 +190,8 @@ var get_precos = function(ddd, uf, cidade){
         document.cookie = null;
         document.cookie = "ddd = "+ddd+"; path=/";
       }
+      $(".place-uf").html(`${readCookie('uf')} (${readCookie('ddd')})`);
+
     },
     error: function(xhr,er) {
       console.log('Error ' + xhr.status + ' - ' + xhr.statusText + ' - Tipo de erro: ' + er);
@@ -247,21 +251,19 @@ $('form[name="wf-form-Formulario-DDD"]').submit(function(event) {
   return false;
 });
 
-
-
-$(document).on('click', '.ghost_ddd', function(event) {
-  $('.modal-ddd.in_c').css('display', 'none');
-
-  if (checa_cookie_ddd() == false) {
-    get_precos(21, 'RJ', null);
-  }
-});
-
 $(document).on('click', '.fechar-modal-ddd', function(event) {
   if (checa_cookie_ddd() == false) {
     get_precos(21, 'RJ', null);
   }
 });
+
+$(document).on('click', '.ghost_ddd', function(event) {
+  $('.modal-ddd.in_c').css('display', 'none');
+  if (checa_cookie_ddd() == false) {
+    get_precos(21, 'RJ', null);
+  }
+});
+
 
 $(".escolha-estado").append(ufs);
 Webflow.push(function() {
