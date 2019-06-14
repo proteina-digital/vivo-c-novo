@@ -104,13 +104,13 @@
         var box_topicos_ver_mais = $(this).find(".wrap.box-topicos.ver_mais.none").last();
         
         var detalhes_lista = $(".box-c").find(".beneficios_dinamicos");
-        detalhes_lista.find(".ver_mais").not('.first').remove();
+        detalhes_lista.find(".ver_mais").remove();
         for (var d = 0; d < planos[index]["info_plano"]["detalhe"].length; d++) {
-          if (d == 0 || d == 1) {
+          if (d == 1) {
               continue;
           }
 
-          detalhes_lista.append('<div class="wrap box-topicos ver_mais none"><div class="set c_ontop"><img src="https://uploads-ssl.webflow.com/5babd501fb0eee25943c30a1/5ce58cbd98314d97a5f11baa_check.png" alt="Modem Grátis" class="box-topico-icon c_menor"></div><div class="set apps_box"><div class="box-topico-txt">'+"<strong>"+planos[index]["info_plano"]["detalhe"][d].replace(/ .*/,'')+"</strong><br><span class='topico_subtext'>"+planos[index]["info_plano"]["detalhe"][d].replace(planos[index]["info_plano"]["detalhe"][d].replace(/ .*/,''),'')+'</span></div></div></div>');
+          detalhes_lista.append('<div class="wrap box-topicos ver_mais none"><div class="set c_ontop"><img src="https://uploads-ssl.webflow.com/5babd501fb0eee25943c30a1/5ce58cbd98314d97a5f11baa_check.png" alt="Modem Grátis" class="box-topico-icon c_menor"></div><div class="set apps_box"><div class="box-topico-txt">'+"<span class='bold'>"+planos[index]["info_plano"]["detalhe"][d].replace(/ .*/,'')+"</span><br><span class='topico_subtext'>"+planos[index]["info_plano"]["detalhe"][d].replace(planos[index]["info_plano"]["detalhe"][d].replace(/ .*/,''),'')+'</span></div></div></div>');
         }
 
         // for (var d = 0; d < planos[index]["info_plano"]["detalhe"].length; d++) {
