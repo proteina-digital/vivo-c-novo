@@ -31,24 +31,62 @@ var ddds = {
 $(document).on('change', '.escolha-estado', function(event) {
     event.preventDefault();
     var uf = $(this).val();
-    if (ddds[uf].length > 0) {
-        var select_ddd = $(".escolha-ddd");
-        select_ddd.find("option").first().text("DDD");
-        select_ddd.find('option').not(':first').remove();
-        for (var i = 0; i < ddds[uf].length; i++) {
-            select_ddd.append('<option value="' + ddds[uf][i] + '">' + ddds[uf][i] + '</option>');
-        }
-    }
+    change_ufs(ddds, uf);
 });
+
 $(document).on('change', '.escolha-ddd', function(event) {
     event.preventDefault();
 });
 
+
+function change_ufs(ddds, uf){
+    console.log('ddds: '+ddds);
+
+    if (ddds[uf].length > 0) {
+        $("")
+        var select_ddd = $(".escolha-ddd");
+        select_ddd.find("option").first().remove();
+        select_ddd.find('option').not(':first').remove();
+        for (var i = 0; i < ddds[uf].length; i++) {
+            select_ddd.append('<option value="' + ddds[uf][i] + '">' + ddds[uf][i] + '</option>');
+        }
+        select_ddd.find('option').first().attr('selected','selected');
+    }
+}
+
+
+function removerAcentos(s) { return s.normalize('NFD').replace(/[\u0300-\u036f|\u00b4|\u0060|\u005e|\u007e]/g, "") }
+
+
+function displayLocationInfo(position) {
+    // console.log(position);
+
+    $.get( "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ position.coords.latitude + "," + position.coords.longitude +"&sensor=false&key=AIzaSyDN6lma9YSGfs0oRG33hQiUaj9sydo2upc", function(data) {
+      // console.log(data);
+
+      CEP = data.results[0].address_components.filter(function (obj) { return obj.types[0] == "postal_code"; })[0].short_name;
+      // Logradouro = data.results[0].address_components.filter(function (obj) { return obj.types[0] == "route"; })[0].long_name;
+      Estado = data.results[0].address_components.filter(function (obj) { return obj.types[0] == "administrative_area_level_1"; })[0].short_name;
+      Cidade = data.results[0].address_components.filter(function (obj) { return obj.types[0] == "administrative_area_level_2"; })[0].long_name;
+      // Bairro = data.results[0].address_components.filter(function (obj) { return obj.types[0] == "political"; })[0].short_name;
+
+      console.log(removerAcentos(Cidade));
+
+      get_precos(null, Estado, removerAcentos(Cidade));
+
+    });
+}
+
+function getErrorGeoLocation(err) {
+    console.log(err);
+}
+
+
 function checa_cookie_ddd() {
-    if (readCookie('ddd') && readCookie('uf')) {
+    if (readCookie('uf') && (readCookie('ddd') || readCookie('cidade')) ) {
         console.log(readCookie('uf'));
         $(".modal-ddd").css('display', 'none');
-        get_precos(readCookie('ddd'), readCookie('uf'), null);
+        get_precos(readCookie('ddd'), readCookie('uf'), readCookie('cidade'));
         return true;
     } else {
         $(".modal-ddd").css('display', 'block');
@@ -76,8 +114,8 @@ function popula_cards(planos, classe, uf, cidade, ddd) {
     i = 0;
     $(wrap_box_planos).each(function(index, el) {
         i++;
-        console.log($(this));
-        console.log(i);
+        // console.log($(this));
+        // console.log(i);
 
         $(this).find('.'+ classe).find('.box-titulo .box-titulo-destaque').html(planos[index]["info_plano"]["dados"].replace("GB", ''));
         $(this).find('.'+ classe).find('.box-preco-valor-destaque').html(trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[0]);
@@ -90,7 +128,7 @@ function popula_cards(planos, classe, uf, cidade, ddd) {
         var box_topicos_ver_mais = $(this).find('.'+ classe).find(".wrap.box-topicos.ver_mais.none").last();
         var detalhes_lista = $(this).find($(".box-c").find(".beneficios_dinamicos"));
         detalhes_lista.find(".ver_mais").remove();
-        console.log($(this));
+        // console.log($(this));
 
         for (var d = 0; d < planos[index]["info_plano"]["detalhe"].length; d++) {
             if (d == 1) {
@@ -108,6 +146,10 @@ function popula_cards(planos, classe, uf, cidade, ddd) {
     });
 }
 var get_precos = function(ddd, uf, cidade) {
+    var ddd = ddd ? ddd : null;
+    var uf = uf ? uf : null;
+    var cidade = cidade ? cidade : null;
+
     var serializeDados = {
         "uf": uf,
         "cidade": cidade,
@@ -126,6 +168,15 @@ var get_precos = function(ddd, uf, cidade) {
         },
         success: function(data, textStatus) {
             console.log(data);
+
+            var ddd = data.ddd == null ? ddd : data.ddd;
+            // var cidade = data.cidade == null ? cidade : data.cidade;
+            // var uf = data.uf == null ? uf : data.uf;
+
+            console.log("ddd: "+ddd+" | data.ddd: "+data.ddd);
+            // console.log("cidade: "+cidade+" | data.cidade: "+data.cidade);
+            // console.log("uf: "+uf+" | data.uf: "+data.uf);
+
 
             var planos = [];
             cont = 0;
@@ -146,12 +197,11 @@ var get_precos = function(ddd, uf, cidade) {
             if (data.portfolio.controle.length > 0) {
                 $(".modal-ddd").css('display', 'none');
                 $(".area-boxes").removeClass('blur');
-                $(".place-uf").html(`${readCookie('uf')} (${readCookie('ddd')})`);
                 document.cookie = "uf = " + uf + "; path=/";
-                document.cookie = null;
                 document.cookie = "ddd = " + ddd + "; path=/";
+                document.cookie = "cidade = " + cidade + "; path=/";
+                $(".place-uf").html(`${uf} (${ddd})`);
             }
-            $(".place-uf").html(`${readCookie('uf')} (${readCookie('ddd')})`);
         },
         error: function(xhr, er) {
             console.log('Error ' + xhr.status + ' - ' + xhr.statusText + ' - Tipo de erro: ' + er);
@@ -208,9 +258,20 @@ $(document).on('click', '.ghost_ddd', function(event) {
         get_precos(21, 'RJ', null);
     }
 });
-$(".escolha-estado").append(ufs);
+
 
 Webflow.push(function() {
+    $(".escolha-estado").append(ufs);
+
+    $('.escolha-estado option[value=RJ]').attr('selected','selected');
+
+    change_ufs(ddds, 'RJ');
+
     checa_cookie_ddd();
     $('.com_promocao').addClass('none');
+
+    if('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(displayLocationInfo, getErrorGeoLocation);
+    }
+
 });
