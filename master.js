@@ -45,12 +45,12 @@ function change_ufs(ddds, uf){
     if (ddds[uf].length > 0) {
         $("")
         var select_ddd = $(".escolha-ddd");
-        select_ddd.find("option").first().remove();
+        select_ddd.find("option").first().text("DDD");
         select_ddd.find('option').not(':first').remove();
         for (var i = 0; i < ddds[uf].length; i++) {
             select_ddd.append('<option value="' + ddds[uf][i] + '">' + ddds[uf][i] + '</option>');
         }
-        select_ddd.find('option').first().attr('selected','selected');
+        select_ddd.find('option').first().next().attr('selected','selected');
     }
 }
 
