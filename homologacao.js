@@ -117,7 +117,7 @@ function popula_cards(planos, classe, uf, cidade, ddd, tipo) {
     $(wrap_box_planos).each(function(index, el) {
         i++;
         // console.log($(this));
-        console.log("sku: "+planos[index]["sku"]+" dados: "+planos[index]["info_plano"]["dados"].replace("GB", ''));
+        // console.log("sku: "+planos[index]["sku"]+" dados: "+planos[index]["info_plano"]["dados"].replace("GB", ''));
 
         $(this).find('.'+ classe).find('.box-titulo .box-titulo-destaque').empty().html(planos[index]["info_plano"]["dados"].replace("GB", ''));
         $(this).find('.'+ classe).find('.box-preco-valor-destaque').html(trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[0]);
@@ -261,10 +261,10 @@ $.fn.extend({
 });
 $('.link-anual_mensal').on('click', function() {
     $(".link-anual_mensal").toggleClass('selecionado');
-    // $(this).addClass('selecionado');
-    // $(this).not(this).removeClass('selecionado');
     $('.plano_mensal').toggleClass('none');
     $('.plano_anual').toggleClass('none');
+    $('.c_bolhabox.a').toggleClass('anual');
+    $('.c_bolhabox.b').toggleClass('anual');
 });
 
 $('.toggle_speed').on('click', function() {
