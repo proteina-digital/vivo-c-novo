@@ -127,6 +127,16 @@ function popula_cards(planos, classe, uf, cidade, ddd, tipo) {
             $(this).find('.txt_velocidade').html(planos[index]["info_plano"]["apps_add"]["titulo"]);
         }
 
+
+        if (planos[index]["info_plano"]["apps"] != null) {
+            $(".wrap.c_box_icons").empty();
+            for (var i = 0; i < planos[index]["info_plano"]["apps"]["imagens"].length; i++) {
+                $(".wrap.c_box_icons").append('<img src="https://automatuslab.blob.core.windows.net/vivofluxoonline/'+planos[index]["info_plano"]["apps"]["imagens"][i]+'" class="c_icon_box">');
+            }
+        }
+
+
+
         var box_topicos_ver_mais = $(this).find('.'+ classe).find(".wrap.box-topicos.ver_mais.none").last();
         var detalhes_lista = $(this).find($(".box-c").find(".beneficios_dinamicos"));
         detalhes_lista.find(".ver_mais").remove();
