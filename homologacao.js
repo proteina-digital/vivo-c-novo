@@ -268,7 +268,7 @@ var get_precos = function(ddd, uf, cidade) {
             $("a.c_btn.c_shadow.menor.amarelo.abre_loja.no-shadow.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
 
 
-            if (ddd == '81' || ddd == '82') {
+            if (ddd == '81' || ddd == '87') {
                 $(".wrap.box-topicos.last.toggle_last").css('display', 'none');
                 $(".wrap.box-topicos.last.toggle_last").prev().addClass('new_toggle_last');
             } else {
