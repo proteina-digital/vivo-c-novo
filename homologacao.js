@@ -271,9 +271,16 @@ var get_precos = function(ddd, uf, cidade) {
             if (ddd == '81' || ddd == '87') {
                 $(".wrap.box-topicos.last.toggle_last").css('display', 'none');
                 $(".wrap.box-topicos.last.toggle_last").prev().addClass('new_toggle_last');
+
+                $(".show_only_81_87").removeClass('hide');
+                $(".show_to_all").addClass('hide');
+
             } else {
                 $(".wrap.box-topicos.last.toggle_last").css('display', 'flex');
                 $(".wrap.box-topicos.last.toggle_last").prev().removeClass('new_toggle_last');
+
+                $(".show_only_81_87").addClass('hide');
+                $(".show_to_all").removeClass('hide');
             }
         }
     });
