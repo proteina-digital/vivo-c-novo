@@ -255,12 +255,26 @@ var get_precos = function(ddd, uf, cidade) {
             } else {
                 var wrap_box_planos = $(".c_slide_produtos").children().children().children();
             }
+
+            
+
             $('.velocidade-destaque').html(wrap_box_planos.find(".box-c.key").find(".box-titulo-destaque").html());
             $(".c_texto.c_preco").empty().html(wrap_box_planos.find(".box-c.key").find('.box-preco-valor-destaque').html());
             $(".c_texto.c_centavos").empty().html(wrap_box_planos.find(".box-c.key").find('.box-preco-centavos-destaque').html());
             var destaque_btn = wrap_box_planos.find(".box-c.key").find(".abre_loja");
+
+            var ddd = destaque_btn.attr("data-ddd");
             $("a.c_btn.c_shadow.menor.amarelo.abre_loja.cta.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
             $("a.c_btn.c_shadow.menor.amarelo.abre_loja.no-shadow.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
+
+
+            if (ddd == '81' || ddd == '82') {
+                $(".wrap.box-topicos.last.toggle_last").css('display', 'none');
+                $(".wrap.box-topicos.last.toggle_last").prev().addClass('new_toggle_last');
+            } else {
+                $(".wrap.box-topicos.last.toggle_last").css('display', 'flex');
+                $(".wrap.box-topicos.last.toggle_last").prev().removeClass('new_toggle_last');
+            }
         }
     });
 }
@@ -288,6 +302,11 @@ $('.mais_ben_btn').on('click', function() {
     $(this).parent().find('.ver_mais').toggleClass('none');
     $(this).parent().find('.icon_ben').toggleClass('none');
     $(this).parent().find('.ben_txt').toggleText('Menos Benefícios', 'Mais Benefícios');
+
+    if( $(".wrap.box-topicos").hasClass('new_toggle_last') ) {
+        $(".wrap.box-topicos.new_toggle_last").toggleClass('last');
+    }
+
 });
 $('form[name="wf-form-Formulario-DDD"]').submit(function(event) {
     var form = $(this);
