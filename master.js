@@ -102,28 +102,40 @@ Array.prototype.move = function(from, to) {
     this.splice(to, 0, this.splice(from, 1)[0]);
 };
 
-function popula_cards(planos, classe, uf, cidade, ddd) {
+function popula_cards(planos, classe, uf, cidade, ddd, tipo) {
     let wrap_box_planos;
     if ($(window).width() > 990) {
-        wrap_box_planos = $('.wrap.box-planos').children();
-        planos.move(0, 1);
+        wrap_box_planos = $('.wrap.box-planos.'+tipo).children();
+        if (planos.length > 2) {
+            planos.move(0, 1);
+        }
     } else {
-        wrap_box_planos = $("#slider_produtos_mb").children();
+        wrap_box_planos = $(".c_slide_produtos."+tipo).find(".mask-slide").children();
     }
 
     i = 0;
     $(wrap_box_planos).each(function(index, el) {
         i++;
         // console.log($(this));
-        // console.log(i);
+        // console.log("sku: "+planos[index]["sku"]+" dados: "+planos[index]["info_plano"]["dados"].replace("GB", ''));
 
-        $(this).find('.'+ classe).find('.box-titulo .box-titulo-destaque').html(planos[index]["info_plano"]["dados"].replace("GB", ''));
+        $(this).find('.'+ classe).find('.box-titulo .box-titulo-destaque').empty().html(planos[index]["info_plano"]["dados"].replace("GB", ''));
         $(this).find('.'+ classe).find('.box-preco-valor-destaque').html(trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[0]);
         $(this).find('.'+ classe).find('.box-preco-centavos-destaque').html("," + trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[1] + "<br>");
         $(this).find('.'+ classe).find('.bonus_txt').html(planos[index]["info_plano"]["dados_detalhe"]);
         if (planos[index]["info_plano"]["apps_add"] != null) {
             $(this).find('.txt_velocidade').html(planos[index]["info_plano"]["apps_add"]["titulo"]);
         }
+
+
+        if (planos[index]["info_plano"]["apps"] != null) {
+            $(".wrap.c_box_icons").empty();
+            for (var i = 0; i < planos[index]["info_plano"]["apps"]["imagens"].length; i++) {
+                $(".wrap.c_box_icons").append('<img src="https://automatuslab.blob.core.windows.net/vivofluxoonline/'+planos[index]["info_plano"]["apps"]["imagens"][i]+'" class="c_icon_box">');
+            }
+        }
+
+
 
         var box_topicos_ver_mais = $(this).find('.'+ classe).find(".wrap.box-topicos.ver_mais.none").last();
         var detalhes_lista = $(this).find($(".box-c").find(".beneficios_dinamicos"));
@@ -178,22 +190,52 @@ var get_precos = function(ddd, uf, cidade) {
             // console.log("uf: "+uf+" | data.uf: "+data.uf);
 
 
+            // MENSAL
             var planos = [];
             cont = 0;
             var planos_promo = [];
             cont_promo = 0;
+
+            // ANUAL
+            var planos_anual = [];
+            cont_anual = 0;
+            var planos_promo_anual = [];
+            cont_promo_anual = 0;
+
             for (var i = 0; i < data.portfolio.controle.length; i++) {
-                if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "TRUE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "default") {
+
+                // MENSAL 
+                if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "TRUE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "default" && data.portfolio.controle[i]["info_plano"]["anual"] == "FALSE") {
                     planos[cont] = data.portfolio.controle[i];
                     cont++;
                 }
-                if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "FALSE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "promo-app") {
+                if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "FALSE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "promo-app" && data.portfolio.controle[i]["info_plano"]["anual"] == "FALSE") {
                     planos_promo[cont_promo] = data.portfolio.controle[i];
                     cont_promo++;
                 }
+
+                // ANUAL
+                if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "TRUE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "default" && data.portfolio.controle[i]["info_plano"]["anual"] == "TRUE") {
+                    planos_anual[cont_anual] = data.portfolio.controle[i];
+                    cont_anual++;
+                }
+                if (data.portfolio.controle[i]["info_plano"]["tipo_fatura"] == "Digital" && data.portfolio.controle[i]["info_plano"]["view"] == "FALSE" && data.portfolio.controle[i]["info_plano"]["campanha"] == "promo-app" && data.portfolio.controle[i]["info_plano"]["anual"] == "TRUE") {
+                    planos_promo_anual[cont_promo_anual] = data.portfolio.controle[i];
+                    cont_promo_anual++;
+                }
             }
-            popula_cards(planos, 'sem_promocao', uf, cidade, ddd);
-            popula_cards(planos_promo, 'com_promocao', uf, cidade, ddd);
+
+            console.log("Qtd de produtos | MENSAL - DEFAULT: "+cont);
+            console.log("Qtd de produtos | MENSAL - PROMO: "+cont_promo);
+            console.log("Qtd de produtos | ANUAL - DEFAULT: "+cont_anual);
+            console.log("Qtd de produtos | ANUAL - PROMO: "+cont_promo_anual);
+
+            popula_cards(planos, 'sem_promocao', uf, cidade, ddd, "plano_mensal");
+            popula_cards(planos_promo, 'com_promocao', uf, cidade, ddd, "plano_mensal");
+
+            popula_cards(planos_anual, 'sem_promocao', uf, cidade, ddd, "plano_anual");
+            popula_cards(planos_promo_anual, 'com_promocao', uf, cidade, ddd, "plano_anual");
+
             if (data.portfolio.controle.length > 0) {
                 $(".modal-ddd").css('display', 'none');
                 $(".area-boxes").removeClass('blur');
@@ -213,12 +255,33 @@ var get_precos = function(ddd, uf, cidade) {
             } else {
                 var wrap_box_planos = $(".c_slide_produtos").children().children().children();
             }
+
+            
+
             $('.velocidade-destaque').html(wrap_box_planos.find(".box-c.key").find(".box-titulo-destaque").html());
             $(".c_texto.c_preco").empty().html(wrap_box_planos.find(".box-c.key").find('.box-preco-valor-destaque').html());
             $(".c_texto.c_centavos").empty().html(wrap_box_planos.find(".box-c.key").find('.box-preco-centavos-destaque').html());
             var destaque_btn = wrap_box_planos.find(".box-c.key").find(".abre_loja");
+
+            var ddd = destaque_btn.attr("data-ddd");
             $("a.c_btn.c_shadow.menor.amarelo.abre_loja.cta.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
             $("a.c_btn.c_shadow.menor.amarelo.abre_loja.no-shadow.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
+
+
+            if (ddd == '81' || ddd == '87') {
+                $(".wrap.box-topicos.last.toggle_last").css('display', 'none');
+                $(".wrap.box-topicos.last.toggle_last").prev().addClass('new_toggle_last');
+
+                $(".show_only_81_87").removeClass('hide');
+                $(".show_to_all").addClass('hide');
+
+            } else {
+                $(".wrap.box-topicos.last.toggle_last").css('display', 'flex');
+                $(".wrap.box-topicos.last.toggle_last").prev().removeClass('new_toggle_last');
+
+                $(".show_only_81_87").addClass('hide');
+                $(".show_to_all").removeClass('hide');
+            }
         }
     });
 }
@@ -227,16 +290,30 @@ $.fn.extend({
         return this.text(this.text() == b ? a : b);
     }
 });
+$('.link-anual_mensal').on('click', function() {
+    $(".link-anual_mensal").toggleClass('selecionado');
+    $('.plano_mensal').toggleClass('none');
+    $('.plano_anual').toggleClass('none');
+    $('.c_bolhabox.a').toggleClass('anual');
+    $('.c_bolhabox.b').toggleClass('anual');
+});
+
 $('.toggle_speed').on('click', function() {
     $(this).toggleClass('selected');
     $('.sem_promocao').toggleClass('none');
     $('.com_promocao').toggleClass('none');
 });
+
 $('.mais_ben_btn').on('click', function() {
     $(this).parent().find('.toggle_last').toggleClass('last');
     $(this).parent().find('.ver_mais').toggleClass('none');
     $(this).parent().find('.icon_ben').toggleClass('none');
     $(this).parent().find('.ben_txt').toggleText('Menos Benefícios', 'Mais Benefícios');
+
+    if( $(".wrap.box-topicos").hasClass('new_toggle_last') ) {
+        $(".wrap.box-topicos.new_toggle_last").toggleClass('last');
+    }
+
 });
 $('form[name="wf-form-Formulario-DDD"]').submit(function(event) {
     var form = $(this);
@@ -268,6 +345,8 @@ Webflow.push(function() {
     change_ufs(ddds, 'RJ');
 
     checa_cookie_ddd();
+
+    $('.plano_mensal').addClass('none');
     $('.com_promocao').addClass('none');
 
     if('geolocation' in navigator) {
