@@ -44,11 +44,6 @@ let timeout;
 let first_time = true;
 const modal_antifulga_session = $('#modal-antifulga');
 
-
-onInactive(30000, function () {
-    abrir_antifulga();
-});
-
 function onInactive(ms, cb) {
     if(first_time) {
         var wait = setTimeout(cb, ms);
@@ -81,16 +76,6 @@ var addEvent = function(obj, evt, fn) {
         obj.attachEvent("on" + evt, fn);
     }
 };
-
-$(document).on('click', '.close-modal-antifulga, .ghost-fechar', fechar_antifulga);
-
-addEvent(document, "mouseout", function(event) {
-    event = event ? event : window.event;
-    var from = event.relatedTarget || event.toElement;
-    if ( (!from || from.nodeName == "HTML") && event.clientY <= 100 && first_time ) {
-        abrir_antifulga();
-    }
-});
 
 
 function change_ufs(ddds, uf){
@@ -433,7 +418,23 @@ $(document).on('click', '.ghost_ddd', function(event) {
 });
 
 
+// modal antifulga
+$(document).on('click', '.close-modal-antifulga, .ghost-fechar', fechar_antifulga);
+
+addEvent(document, "mouseout", function(event) {
+    event = event ? event : window.event;
+    var from = event.relatedTarget || event.toElement;
+    if ( (!from || from.nodeName == "HTML") && event.clientY <= 100 && first_time ) {
+        abrir_antifulga();
+    }
+});
+
+
 Webflow.push(function() {
+    onInactive(30000, function () {
+        abrir_antifulga();
+    });
+
     $(".escolha-estado").append(ufs);
 
     $('.escolha-estado option[value=RJ]').attr('selected','selected');
