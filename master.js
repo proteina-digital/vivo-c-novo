@@ -38,6 +38,60 @@ $(document).on('change', '.escolha-ddd', function(event) {
     event.preventDefault();
 });
 
+/// MODAL ANTIFULGA
+
+let timeout;
+let first_time = true;
+const modal_antifulga_session = $('#modal-antifulga');
+
+
+onInactive(30000, function () {
+    abrir_antifulga();
+});
+
+function onInactive(ms, cb) {
+    if(first_time) {
+        var wait = setTimeout(cb, ms);
+    }
+
+    // document.onmousemove = document.mousedown = document.mouseup = document.onkeydown = document.onkeyup = document.focus = function () {
+    //     clearTimeout(wait);
+    //     wait = setTimeout(cb, ms);
+    // };
+}
+
+
+function abrir_antifulga() {
+    modal_antifulga_session.css("display", "flex")
+    .hide()
+    .fadeIn();
+
+    first_time = false;
+}
+
+function fechar_antifulga() {
+    modal_antifulga_session.fadeOut();
+}
+
+var addEvent = function(obj, evt, fn) {
+    if (obj.addEventListener) {
+        obj.addEventListener(evt, fn, false);
+    }
+    else if (obj.attachEvent) {
+        obj.attachEvent("on" + evt, fn);
+    }
+};
+
+$(document).on('click', '.close-modal-antifulga, .ghost-fechar', fechar_antifulga);
+
+addEvent(document, "mouseout", function(event) {
+    event = event ? event : window.event;
+    var from = event.relatedTarget || event.toElement;
+    if ( (!from || from.nodeName == "HTML") && event.clientY <= 100 && first_time ) {
+        abrir_antifulga();
+    }
+});
+
 
 function change_ufs(ddds, uf){
     console.log('ddds: '+ddds);
@@ -101,6 +155,28 @@ function trata_preco_api(valor) {
 Array.prototype.move = function(from, to) {
     this.splice(to, 0, this.splice(from, 1)[0]);
 };
+
+
+function popula_modal_antifulga(plano) {
+
+    // modal anti fulga
+    let modal_antifulga = modal_antifulga_session.children();
+
+    modal_antifulga.find('.box-titulo .box-titulo-destaque').empty().html(plano["info_plano"]["dados"].replace("GB", ''));
+    modal_antifulga.find('.box-preco-valor-destaque').html(trata_preco_api(plano["valores_plano"]["valor_oferta"])[0]);
+    modal_antifulga.find('.box-preco-valor-destaque').next().html("," + trata_preco_api(plano["valores_plano"]["valor_oferta"])[1]);
+    modal_antifulga.find('.dados_detalhe').html(trata_preco_api(plano["info_plano"]["dados_detalhe"]));
+    modal_antifulga.find('.is-ligacoes-txt').html(trata_preco_api(plano["info_plano"]["titulo"]));
+
+     if (plano["info_plano"]["apps"] != null) {
+        modal_antifulga.find(".social-content").empty();
+        for (var i = 0; i < plano["info_plano"]["apps"]["imagens"].length; i++) {
+            modal_antifulga.find(".social-content").append('<img src="https://automatuslab.blob.core.windows.net/vivofluxoonline/'+plano["info_plano"]["apps_large"]["imagens"][i]+'" class="social-antifulga">');
+        }
+
+     }
+
+}
 
 function popula_cards(planos, classe, uf, cidade, ddd, tipo) {
     let wrap_box_planos;
@@ -188,6 +264,26 @@ var get_precos = function(ddd, uf, cidade) {
             console.log("ddd: "+ddd+" | data.ddd: "+data.ddd);
             // console.log("cidade: "+cidade+" | data.cidade: "+data.cidade);
             // console.log("uf: "+uf+" | data.uf: "+data.uf);
+
+            if (ddd == '81' || ddd == '87') {
+                for (var i = 0; i < data.portfolio.controle.length; i++) {
+
+                    if(data.portfolio.controle[i].sku == 'CTRL009DE') {
+                        let oferta_antifulga =  data.portfolio.controle[i];
+                        console.log(oferta_antifulga);
+                        popula_modal_antifulga(oferta_antifulga);
+                    }
+                }
+            } else {
+                for (var i = 0; i < data.portfolio.controle.length; i++) {
+
+                    if(data.portfolio.controle[i].sku == 'CTRL009DN') {
+                        let oferta_antifulga =  data.portfolio.controle[i];
+                        console.log(oferta_antifulga);
+                        popula_modal_antifulga(oferta_antifulga);
+                    }
+                }
+            }
 
 
             // MENSAL
