@@ -45,14 +45,14 @@ let first_time = true;
 const modal_antifulga_session = $('#modal-antifulga');
 
 function onInactive(ms, cb) {
-    if(first_time) {
-        var wait = setTimeout(cb, ms);
-    }
+     if(first_time) {
+         var wait = setTimeout(cb, ms);
+     }
 
-    // document.onmousemove = document.mousedown = document.mouseup = document.onkeydown = document.onkeyup = document.focus = function () {
-    //     clearTimeout(wait);
-    //     wait = setTimeout(cb, ms);
-    // };
+      document.onmousemove = document.mousedown = document.mouseup = document.onkeydown = document.onkeyup = document.focus = function () {
+          clearTimeout(wait);
+          wait = setTimeout(cb, ms);
+      };
 }
 
 
@@ -439,7 +439,9 @@ addEvent(document, "mouseout", function(event) {
 
 Webflow.push(function() {
     onInactive(30000, function () {
-        abrir_antifulga();
+        if(first_time) {
+            abrir_antifulga();
+        }
     });
 
     $(".escolha-estado").append(ufs);
