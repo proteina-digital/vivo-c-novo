@@ -142,7 +142,7 @@ Array.prototype.move = function(from, to) {
 };
 
 
-function popula_modal_antifulga(plano) {
+function popula_modal_antifulga(plano, ddd, uf) {
 
     // modal anti fulga
     let modal_antifulga = modal_antifulga_session.children();
@@ -161,6 +161,13 @@ function popula_modal_antifulga(plano) {
 
      }
 
+    modal_antifulga.find(".abre_loja").attr("data-preco", plano["valores_plano"]["valor_oferta"]);
+    modal_antifulga.find(".abre_loja").attr("data-ddd", ddd);
+    modal_antifulga.find(".abre_loja").attr("data-uf", uf);
+    modal_antifulga.find(".abre_loja").attr("data-sku", plano["sku"]);
+    modal_antifulga.find(".abre_loja").attr("data-nome", plano["info_plano"]["dados"]);
+
+    modal_antifulga.children().attr('data-sku', plano["sku"]);
 }
 
 function popula_cards(planos, classe, uf, cidade, ddd, tipo) {
@@ -256,7 +263,7 @@ var get_precos = function(ddd, uf, cidade) {
                     if(data.portfolio.controle[i].sku == 'CTRL009DE') {
                         let oferta_antifulga =  data.portfolio.controle[i];
                         console.log(oferta_antifulga);
-                        popula_modal_antifulga(oferta_antifulga);
+                        popula_modal_antifulga(oferta_antifulga, ddd, uf);
                     }
                 }
             } else {
@@ -265,7 +272,7 @@ var get_precos = function(ddd, uf, cidade) {
                     if(data.portfolio.controle[i].sku == 'CTRL009DN') {
                         let oferta_antifulga =  data.portfolio.controle[i];
                         console.log(oferta_antifulga);
-                        popula_modal_antifulga(oferta_antifulga);
+                        popula_modal_antifulga(oferta_antifulga, ddd, uf);
                     }
                 }
             }
@@ -419,7 +426,7 @@ $(document).on('click', '.ghost_ddd', function(event) {
 
 
 // modal antifulga
-$(document).on('click', '.close-modal-antifulga, .ghost-fechar', fechar_antifulga);
+$(document).on('click', '.close-modal-antifulga, .ghost-fechar, .btn-antifulga', fechar_antifulga);
 
 addEvent(document, "mouseout", function(event) {
     event = event ? event : window.event;
