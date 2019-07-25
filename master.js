@@ -438,11 +438,13 @@ addEvent(document, "mouseout", function(event) {
 
 
 Webflow.push(function() {
-    onInactive(30000, function () {
-        if(first_time) {
-            abrir_antifulga();
-        }
-    });
+    if($(window).width() < 768) {
+        onInactive(60000, function () {
+            if(first_time) {
+                abrir_antifulga();
+            }
+        });
+    };
 
     $(".escolha-estado").append(ufs);
 
