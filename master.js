@@ -40,27 +40,6 @@ let timeout;
 let first_time = true;
 const modal_antifulga_session = $('#modal-antifulga');
 
-function getCookie(name) {
-    var dc = document.cookie;
-    var prefix = name + "=";
-    var begin = dc.indexOf("; " + prefix);
-    if (begin == -1) {
-        begin = dc.indexOf(prefix);
-        if (begin != 0) return null;
-    }
-    else
-    {
-        begin += 2;
-        var end = document.cookie.indexOf(";", begin);
-        if (end == -1) {
-        end = dc.length;
-        }
-    }
-    // because unescape has been deprecated, replaced with decodeURI
-    //return unescape(dc.substring(begin + prefix.length, end));
-    return decodeURI(dc.substring(begin + prefix.length, end));
-} 
-
 function onInactive(ms, cb) {
     if (first_time) {
         var wait = setTimeout(cb, ms);
@@ -69,6 +48,27 @@ function onInactive(ms, cb) {
         clearTimeout(wait);
         wait = setTimeout(cb, ms);
     };
+}
+
+function getCookie(name) {
+  var dc = document.cookie;
+  var prefix = name + "=";
+  var begin = dc.indexOf("; " + prefix);
+  if (begin == -1) {
+      begin = dc.indexOf(prefix);
+      if (begin != 0) return null;
+  }
+  else
+  {
+      begin += 2;
+      var end = document.cookie.indexOf(";", begin);
+      if (end == -1) {
+      end = dc.length;
+      }
+  }
+  // because unescape has been deprecated, replaced with decodeURI
+  //return unescape(dc.substring(begin + prefix.length, end));
+  return decodeURI(dc.substring(begin + prefix.length, end));
 }
 
 function abrir_antifulga() {
@@ -199,7 +199,7 @@ function popula_cards(planos, classe, uf, cidade, ddd, tipo) {
             if (d == 1) {
                 continue;
             }
-            $(this).find(detalhes_lista).append('<div class="wrap box-topicos ver_mais none"><div class="set c_ontop"><img src="https://uploads-ssl.webflow.com/5babd501fb0eee25943c30a1/5ce58cbd98314d97a5f11baa_check.png" alt="Modem Grátis" class="box-topico-icon c_menor"></div><div class="set apps_box"><div class="box-topico-txt">' + "<span class='bold'>" + planos[index]["info_plano"]["detalhe"][d].replace(/ ./, '') + "</span><br><span class='topico_subtext'>" + planos[index]["info_plano"]["detalhe"][d].replace(planos[index]["info_plano"]["detalhe"][d].replace(/ ./, ''), '') + '</span></div></div></div>');
+            $(this).find(detalhes_lista).append('<div class="wrap box-topicos ver_mais none"><div class="set c_ontop"><img src="https://uploads-ssl.webflow.com/5babd501fb0eee25943c30a1/5ce58cbd98314d97a5f11baa_check.png" alt="Modem Grátis" class="box-topico-icon c_menor"></div><div class="set apps_box"><div class="box-topico-txt">' + "<span class='bold'>" + planos[index]["info_plano"]["detalhe"][d].replace(/ .*/, '') + "</span><br><span class='topico_subtext'>" + planos[index]["info_plano"]["detalhe"][d].replace(planos[index]["info_plano"]["detalhe"][d].replace(/ .*/, ''), '') + '</span></div></div></div>');
         }
         $(this).find('.' + classe).find("a.abre_loja").attr("data-preco", planos[index]["valores_plano"]["valor_oferta"]);
         $(this).find('.' + classe).find("a.abre_loja").attr("data-ddd", ddd);
@@ -370,44 +370,44 @@ $(document).on('click', '.ghost_ddd', function(event) {
         get_precos(21, 'RJ', null);
     }
 });
-$(document).on('click', '.close-modal-antifulga, .ghost-fechar, .btn-antifulga', fechar_antifulga);
-setTimeout(function() {
-    addEvent(document, "mouseout", function(event) {
-        event = event ? event : window.event;
-            var from = event.relatedTarget || event.toElement;
-            if ((!from || from.nodeName == "HTML") && event.clientY <= 100 && first_time) {
-                abrir_antifulga();
-            }
-        
-    });
-}, 120000);
 
-$(document).on('click', '.abre_loja', function() {
-    setTimeout(function(){
-        first_time = false;
-    },60000);
-});
+$(document).on('click', '.close-modal-antifulga, .ghost-fechar, .btn-antifulga', fechar_antifulga);
 
 $(document).on('click', '#btnFecharModal', function() {
-    if(first_time) {
-        abrir_antifulga();
-    }
+  if(first_time) {
+      abrir_antifulga();
+  }
 });
+
+
+$(document).on('click', '.abre_loja', function() {
+  setTimeout(function(){
+      first_time = false;
+  },60000);
+});
+
+setTimeout(function() {
+  addEvent(document, "mouseout", function(event) {
+      event = event ? event : window.event;
+      var from = event.relatedTarget || event.toElement;
+      if ((!from || from.nodeName == "HTML") && event.clientY <= 100 && first_time) {
+          abrir_antifulga();
+      }
+  });
+}, 120000);
 
 Webflow.push(function() {
     if(getCookie('gerou_lead') !== null) {
-        first_time = false;
+      first_time = false;
     }
 
     if ($(window).width() < 768) {
-        onInactive(120000, function() {
+        onInactive(60000, function() {
             if (first_time) {
                 abrir_antifulga();
             }
         });
     };
-
-
     $(".escolha-estado").append(ufs);
     $('.escolha-estado option[value=RJ]').attr('selected', 'selected');
     change_ufs(ddds, 'RJ');
@@ -417,4 +417,4 @@ Webflow.push(function() {
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(displayLocationInfo, getErrorGeoLocation);
     }
-});
+}); 
