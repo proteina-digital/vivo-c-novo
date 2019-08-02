@@ -373,18 +373,18 @@ $(document).on('click', '.ghost_ddd', function(event) {
 
 $(document).on('click', '.close-modal-antifulga, .ghost-fechar, .btn-antifulga', fechar_antifulga);
 
-$(document).on('click', '#btnFecharModal', function() {
-  if(first_time) {
-      abrir_antifulga();
-  }
-});
+// $(document).on('click', '#btnFecharModal', function() {
+//   if(first_time) {
+//       abrir_antifulga();
+//   }
+// });
 
 
-$(document).on('click', '.abre_loja', function() {
-  setTimeout(function(){
-      first_time = false;
-  },60000);
-});
+// $(document).on('click', '.abre_loja', function() {
+//   setTimeout(function(){
+//       first_time = false;
+//   },60000);
+// });
 
 setTimeout(function() {
   addEvent(document, "mouseout", function(event) {
@@ -394,7 +394,7 @@ setTimeout(function() {
           abrir_antifulga();
       }
   });
-}, 120000);
+}, 90000);
 
 Webflow.push(function() {
     if(getCookie('gerou_lead') !== null) {
