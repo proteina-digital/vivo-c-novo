@@ -233,23 +233,33 @@ var get_precos = function(ddd, uf, cidade) {
             console.log(data);
             var ddd = data.ddd == null ? ddd : data.ddd;
             console.log("ddd: " + ddd + " | data.ddd: " + data.ddd);
-            if (ddd == '81' || ddd == '87') {
-                for (var i = 0; i < data.portfolio.controle.length; i++) {
-                    if (data.portfolio.controle[i].sku == 'CTRL009DE') {
-                        let oferta_antifulga = data.portfolio.controle[i];
-                        console.log(oferta_antifulga);
-                        popula_modal_antifulga(oferta_antifulga, ddd, uf);
-                    }
-                }
-            } else {
-                for (var i = 0; i < data.portfolio.controle.length; i++) {
-                    if (data.portfolio.controle[i].sku == 'CTRL009DN') {
-                        let oferta_antifulga = data.portfolio.controle[i];
-                        console.log(oferta_antifulga);
-                        popula_modal_antifulga(oferta_antifulga, ddd, uf);
-                    }
+            // if (ddd == '81' || ddd == '87') {
+            //     for (var i = 0; i < data.portfolio.controle.length; i++) {
+            //         if (data.portfolio.controle[i].sku == 'CTRL009DE') {
+            //             let oferta_antifulga = data.portfolio.controle[i];
+            //             console.log(oferta_antifulga);
+            //             popula_modal_antifulga(oferta_antifulga, ddd, uf);
+            //         }
+            //     }
+            // } else {
+            //     for (var i = 0; i < data.portfolio.controle.length; i++) {
+            //         if (data.portfolio.controle[i].sku == 'CTRL009DN') {
+            //             let oferta_antifulga = data.portfolio.controle[i];
+            //             console.log(oferta_antifulga);
+            //             popula_modal_antifulga(oferta_antifulga, ddd, uf);
+            //         }
+            //     }
+            // }
+
+            for (var i = 0; i < data.portfolio.controle.length; i++) {
+                if (data.portfolio.controle[i].sku == 'CTRL009DN') {
+                    let oferta_antifulga = data.portfolio.controle[i];
+                    console.log(oferta_antifulga);
+                    popula_modal_antifulga(oferta_antifulga, ddd, uf);
                 }
             }
+
+
             var planos = [];
             cont = 0;
             var planos_promo = [];
@@ -310,17 +320,19 @@ var get_precos = function(ddd, uf, cidade) {
             var ddd = destaque_btn.attr("data-ddd");
             $("a.c_btn.c_shadow.menor.amarelo.abre_loja.cta.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
             $("a.c_btn.c_shadow.menor.amarelo.abre_loja.no-shadow.w-button").attr("data-preco", destaque_btn.attr("data-preco")).attr("data-ddd", destaque_btn.attr("data-ddd")).attr("data-uf", destaque_btn.attr("data-uf")).attr("data-sku", destaque_btn.attr("data-sku")).attr('data-nome', destaque_btn.attr("data-nome"));
-            if (ddd == '81' || ddd == '87') {
-                $(".wrap.box-topicos.last.toggle_last").css('display', 'none');
-                $(".wrap.box-topicos.last.toggle_last").prev().addClass('new_toggle_last');
-                $(".show_only_81_87").removeClass('hide');
-                $(".show_to_all").addClass('hide');
-            } else {
-                $(".wrap.box-topicos.last.toggle_last").css('display', 'flex');
-                $(".wrap.box-topicos.last.toggle_last").prev().removeClass('new_toggle_last');
-                $(".show_only_81_87").addClass('hide');
-                $(".show_to_all").removeClass('hide');
-            }
+            // if (ddd == '81' || ddd == '87') {
+            //     $(".wrap.box-topicos.last.toggle_last").css('display', 'none');
+            //     $(".wrap.box-topicos.last.toggle_last").prev().addClass('new_toggle_last');
+            //     $(".show_only_81_87").removeClass('hide');
+            //     $(".show_to_all").addClass('hide');
+            // } else {
+            //     $(".wrap.box-topicos.last.toggle_last").css('display', 'flex');
+            //     $(".wrap.box-topicos.last.toggle_last").prev().removeClass('new_toggle_last');
+            //     $(".show_only_81_87").addClass('hide');
+            //     $(".show_to_all").removeClass('hide');
+            // }
+
+            
         }
     });
 }
