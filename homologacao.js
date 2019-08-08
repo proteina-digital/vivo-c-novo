@@ -132,7 +132,10 @@ function checa_cookie_ddd() {
         get_precos(readCookie('ddd'), readCookie('uf'), readCookie('cidade'));
         return true;
     } else {
-        $(".modal-ddd").css('display', 'block');
+        // $(".modal-ddd").css('display', 'block');
+
+        $(".modal-ddd").css('display', 'none');
+        get_precos(21, 'RJ', null);
         return false;
     }
 }
@@ -426,7 +429,7 @@ Webflow.push(function() {
     checa_cookie_ddd();
     $('.plano_mensal').addClass('none');
     $('.com_promocao').addClass('none');
-    if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(displayLocationInfo, getErrorGeoLocation);
-    }
+    // if ('geolocation' in navigator) {
+    //     navigator.geolocation.getCurrentPosition(displayLocationInfo, getErrorGeoLocation);
+    // }
 }); 
