@@ -224,7 +224,7 @@ var get_precos = function(ddd, uf, cidade) {
     var btn = $(".form-ddd-btn");
     console.log(serializeDados);
     $.ajax({
-        url: 'https://catalogo-vivo.automatuslab.com/api/Catalogo/DisponibilidadeMovel',
+        url: 'https://dev-catalogo-vivo.automatuslab.com/api/Catalogo/DisponibilidadeMovel',
         dataType: 'json',
         contentType: "application/json; charset=utf-8",
         type: 'POST',
