@@ -198,7 +198,7 @@
                 detalhes_lista.find(".ct-detalhe-wrapper").remove();
 
                 
-                let botao = $(this).find(".ct-btn.js-abre_loja");
+                let botao = $(this).find(".ct-btn.abre_loja");
                 botao.attr("data-preco", planos[index]["valores_plano"]["valor_oferta"]);
                 botao.attr("data-ddd", ddd);
                 botao.attr("data-uf", uf);
