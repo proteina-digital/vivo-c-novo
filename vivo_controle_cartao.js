@@ -31,6 +31,7 @@
     }
 
     let last_slider = $('.ct-box-planos').last().clone();
+    let locationInfo = false;
 
 
     $(document).on('change', '.escolha-estado', function(event) {
@@ -110,6 +111,7 @@
     }
 
     function displayLocationInfo(position) {
+        locationInfo = true;
         $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&sensor=false&key=AIzaSyDN6lma9YSGfs0oRG33hQiUaj9sydo2upc", function(data) {
             CEP = data.results[0].address_components.filter(function(obj) {
                 return obj.types[0] == "postal_code";
@@ -123,18 +125,22 @@
             console.log(removerAcentos(Cidade));
 
             get_precos(null, Estado, removerAcentos(Cidade));
+            $('.div-pai').removeClass('blur');
         });
     }
 
     function getErrorGeoLocation(err) {
         console.log(err);
-
         checa_cookie_ddd();
 
 
     }
 
     function checa_cookie_ddd() {
+        if(locationInfo) {
+          return false;
+        }
+
         if (readCookie('uf') && (readCookie('ddd') || readCookie('cidade'))) {
             console.log(readCookie('uf'));
             // $(".modal-ddd").css('display', 'none');
@@ -308,6 +314,8 @@
                         $(".place-uf").html(`${uf} (${ddd})`);                        
                     }
                 }
+
+                $('.div-pai').removeClass('blur');
             },
             error: function(xhr, er) {
                 console.log('Error ' + xhr.status + ' - ' + xhr.statusText + ' - Tipo de erro: ' + er);
