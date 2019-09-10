@@ -123,7 +123,6 @@
             console.log(removerAcentos(Cidade));
 
             get_precos(null, Estado, removerAcentos(Cidade));
-            $('.div-pai').removeClass('blur');
         });
     }
 
@@ -131,7 +130,6 @@
         console.log(err);
 
         checa_cookie_ddd();
-        $('.div-pai').removeClass('blur');        
 
 
     }
