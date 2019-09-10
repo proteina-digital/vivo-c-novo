@@ -284,8 +284,10 @@
                 console.log(planos.length);
                 if(planos.length == 2) {
                     $('.ct-box-planos').last().css('display', 'none');
+                    Webflow.require('slider').redraw();
                 } else if (planos.length == 3) {
                     $('.ct-box-planos').last().css('display', 'inline-block');
+                    Webflow.require('slider').redraw();
                 }
 
                 console.log("Qtd de produtos | CARTAO: " + cont);
