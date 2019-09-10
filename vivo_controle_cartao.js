@@ -30,6 +30,9 @@
         "TO": ["63"]
     }
 
+    let last_slider = $('.ct-box-planos').last().clone();
+
+
     $(document).on('change', '.escolha-estado', function(event) {
         event.preventDefault();
         var uf = $(this).val();
@@ -281,10 +284,8 @@
     
                 }
 
-                console.log(planos.length);
-                let last_slider;
+                console.log(planos.length);                
                 if(planos.length == 2 && $('.ct-box-planos').length !== planos.length) {
-                    last_slider = $('.ct-box-planos').last().clone();
                     $('.ct-box-planos').last().remove();
                     Webflow.require('slider').redraw();
                 } else if (planos.length == 3 && $('.ct-box-planos').length !== planos.length) {
