@@ -38,6 +38,7 @@
     $(document).on('change', '.escolha-ddd', function(event) {
         event.preventDefault();
     });
+    
     let timeout;
     let first_time = true;
     const modal_antifulga_session = $('#modal-antifulga');
@@ -102,7 +103,7 @@
     }
 
     function removerAcentos(s) {
-        return s.normalize('NFD').replace(/[\u0300-\u036f|\u00b4|\u0060|\u005e|\u007e]/g, "")
+        return s.normalize('NFD').replace(/[\u0300-\u036f|\u00b4|\u0060|\u005e|\u007e]/g, "");
     }
 
     function displayLocationInfo(position) {
@@ -117,12 +118,17 @@
                 return obj.types[0] == "administrative_area_level_2";
             })[0].long_name;
             console.log(removerAcentos(Cidade));
+
             get_precos(null, Estado, removerAcentos(Cidade));
         });
     }
 
     function getErrorGeoLocation(err) {
         console.log(err);
+
+        checa_cookie_ddd();
+
+
     }
 
     function checa_cookie_ddd() {
@@ -132,7 +138,7 @@
             get_precos(readCookie('ddd'), readCookie('uf'), readCookie('cidade'));
             return true;
         } else {
-            // get_precos(11, 'SP', null);
+            // get_precos(21, 'RJ', null);
             $('#modal-ddd').css('display', 'block');
             return false;
         }
@@ -182,31 +188,29 @@
         
 
         wrap_box_planos = $(".ct-planos-slider").find(".ct-mask-slider").children();
-
-        console.log(wrap_box_planos);
-        console.log('^^^');
-        console.log(planos);
         // i = 0;
-        $(wrap_box_planos).each(function(index, el) {
-            // i++;
-                console.log(index);
-                $(this).find('.ct-giga-bold').empty().html(planos[index]["info_plano"]["dados"].replace("GB", ''));
-                $(this).find('.ct-reais').html(trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[0]);
-                $(this).find('.ct-cents').html("," + trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[1] + "<br>");
+       // inves de div each um for each index mude a div que corresponde ao mesmo index 
+        for(index = 0; index < planos.length; index++) {
+            let current = wrap_box_planos[index];
+            current = $(current);
 
-                var detalhes_lista = $(this).find(".ct-pct-detalhes-body");
-                detalhes_lista.find(".ct-detalhe-wrapper").remove();
+            console.log(current);
+            // return false;
 
-                
-                let botao = $(this).find(".ct-btn.abre_loja");
-                botao.attr("data-preco", planos[index]["valores_plano"]["valor_oferta"]);
-                botao.attr("data-ddd", ddd);
-                botao.attr("data-uf", uf);
-                botao.attr("data-sku", planos[index]["sku"]);
-                botao.attr("data-nome", planos[index]["info_plano"]["dados"]);
-                $(this).attr('data-sku', planos[index]["sku"]);
+            current.find('.ct-giga-bold').empty().html(planos[index]["info_plano"]["dados"].replace("GB", ''));
+            current.find('.ct-reais').html(trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[0]);
+            current.find('.ct-cents').html("," + trata_preco_api(planos[index]["valores_plano"]["valor_oferta"])[1] + "<br>");
 
+            var detalhes_lista = current.find(".ct-pct-detalhes-body");
+            detalhes_lista.find(".ct-detalhe-wrapper").remove();
 
+            let botao = current.find(".ct-btn.abre_loja");
+            botao.attr("data-preco", planos[index]["valores_plano"]["valor_oferta"]);
+            botao.attr("data-ddd", ddd);
+            botao.attr("data-uf", uf);
+            botao.attr("data-sku", planos[index]["sku"]);
+            botao.attr("data-nome", planos[index]["info_plano"]["dados"]);
+            current.attr('data-sku', planos[index]["sku"]);
 
                 for (var d = 0; d < planos[index]["info_plano"]["detalhe"].length; d++) {
 
@@ -218,15 +222,14 @@
                         icn = 'https://global-uploads.webflow.com/5babd501fb0eee25943c30a1/5d63d0d8afd53ffeef1dfe8f_icn-bullet.png';
                     }
 
-                    $(this).find(detalhes_lista).append(`
+                    current.find(detalhes_lista).append(`
                         <div class="ct-detalhe-wrapper">
                             <img src="${icn}" alt="" class="icn-valid">
                             <div class="txt-detalhe-single"><span class="txt-detalhe-single-bold">${planos[index]["info_plano"]["detalhe"][d].replace(/ .*/, '')}</span>${planos[index]["info_plano"]["detalhe"][d].replace(planos[index]["info_plano"]["detalhe"][d].replace(/ .*/, ''), '')}</div>
                         </div>
                     `);
             }
-            
-        });
+        }
     }
 
     var get_precos = function(ddd, uf, cidade) {
@@ -277,6 +280,14 @@
                     }
     
                 }
+
+                console.log(planos.length);
+                if(planos.length == 2) {
+                    $('.ct-box-planos').last().css('display', 'none');
+                } else if (planos.length == 3) {
+                    $('.ct-box-planos').last().css('display', 'inline-block');
+                }
+
                 console.log("Qtd de produtos | CARTAO: " + cont);
                 popula_cards(planos, uf, cidade, ddd);
 
@@ -286,7 +297,11 @@
                     document.cookie = "uf = " + uf + "; path=/";
                     document.cookie = "ddd = " + ddd + "; path=/";
                     document.cookie = "cidade = " + cidade + "; path=/";
-                    $(".place-uf").html(`${uf} (${ddd})`);
+                    if(ddd === null) {
+                        $(".place-uf").html(uf);
+                    } else {
+                        $(".place-uf").html(`${uf} (${ddd})`);                        
+                    }
                 }
             },
             error: function(xhr, er) {
@@ -309,11 +324,13 @@
             }
         });
     }
+
     $.fn.extend({
         toggleText: function(a, b) {
             return this.text(this.text() == b ? a : b);
         }
     });
+
     $('.link-anual_mensal').on('click', function() {
         $(".link-anual_mensal").toggleClass('selecionado');
         $('.plano_mensal').toggleClass('none');
@@ -321,11 +338,13 @@
         $('.c_bolhabox.a').toggleClass('anual');
         $('.c_bolhabox.b').toggleClass('anual');
     });
+
     $('.toggle_speed').on('click', function() {
         $(this).toggleClass('selected');
         $('.sem_promocao').toggleClass('none');
         $('.com_promocao').toggleClass('none');
     });
+
     $('.mais_ben_btn').on('click', function() {
         $(this).parent().find('.toggle_last').toggleClass('last');
         $(this).parent().find('.ver_mais').toggleClass('none');
@@ -335,6 +354,7 @@
             $(".wrap.box-topicos.new_toggle_last").toggleClass('last');
         }
     });
+
     $('form[name="wf-form-Formulario-DDD"]').submit(function(event) {
         var form = $(this);
         var ddd = form.find("select[name='escolha_ddd'] option:selected").val();
@@ -344,6 +364,7 @@
         event.preventDefault();
         return false;
     });
+
     $(document).on('click', '.fechar-modal-ddd', function(event) {
         if (checa_cookie_ddd() == false) {
             get_precos(21, 'RJ', null);
@@ -373,21 +394,7 @@
             navigator.geolocation.getCurrentPosition(displayLocationInfo, getErrorGeoLocation);
         }
 
-        // if(getCookie('gerou_lead') !== null) {
-        //   first_time = false;
-        // }
-
-        // if ($(window).width() < 768) {
-        //     onInactive(60000, function() {
-        //         if (first_time) {
-        //             abrir_antifulga();
-        //         }
-        //     });
-        // };
-
-
         $(".escolha-estado").append(ufs);
         $('.escolha-estado option[value=RJ]').attr('selected', 'selected');
         change_ufs(ddds, 'RJ');
-        checa_cookie_ddd();
     }); 
