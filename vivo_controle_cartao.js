@@ -282,10 +282,10 @@
                 }
 
                 console.log(planos.length);
-                if(planos.length == 2) {
+                if(planos.length == 2 && $('.ct-box-planos').length !== planos.length) {
                     $('.ct-box-planos').last().remove();
                     Webflow.require('slider').redraw();
-                } else if (planos.length == 3) {
+                } else if (planos.length == 3 && $('.ct-box-planos').length !== planos.length) {
                     $('.ct-box-planos').first().clone().appendTo('#ct-mask-slider');
                     Webflow.require('slider').redraw();
                 }
