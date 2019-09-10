@@ -282,11 +282,12 @@
                 }
 
                 console.log(planos.length);
+                var last_slider = $('.ct-box-planos');
                 if(planos.length == 2) {
-                    $('.ct-box-planos').last().css('display', 'none');
+                    $('.ct-box-planos').last().remove();
                     Webflow.require('slider').redraw();
                 } else if (planos.length == 3) {
-                    $('.ct-box-planos').last().css('display', 'inline-block');
+                    $('#ct-mask-slider').append(last_slider);
                     Webflow.require('slider').redraw();
                 }
 
