@@ -139,6 +139,7 @@
             console.log(readCookie('uf'));
             // $(".modal-ddd").css('display', 'none');
             get_precos(readCookie('ddd'), readCookie('uf'), readCookie('cidade'));
+            $('.div-pai').removeClass('blur');
             return true;
         } else {
             // get_precos(21, 'RJ', null);
