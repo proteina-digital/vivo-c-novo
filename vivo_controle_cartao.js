@@ -125,7 +125,6 @@ function displayLocationInfo(position) {
         console.log(removerAcentos(Cidade));
 
         get_precos(null, Estado, removerAcentos(Cidade));
-        $('.div-pai').removeClass('blur');
     });
 }
 
@@ -306,6 +305,7 @@ var get_precos = function(ddd, uf, cidade) {
 
             if (data.portfolio.controle.length > 0) {
                 $(".modal-ddd").css('display', 'none');
+                $(".ct-h3").removeClass('blur');
                 $(".ct-destaque-wrapper").removeClass('blur');
                 $(".ct-planos-slider").removeClass('blur');
                 document.cookie = "uf = " + uf + "; path=/";
