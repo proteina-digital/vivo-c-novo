@@ -188,11 +188,18 @@ function popula_cards(planos, uf, cidade, ddd) {
     $('.ct-conteudo-header').find('.ct-reais').empty().html(trata_preco_api(planos[0]["valores_plano"]["valor_oferta"])[0]);
     $('.ct-conteudo-header').find('.ct-cents').empty().html("," + trata_preco_api(planos[0]["valores_plano"]["valor_oferta"])[1] + "<span class='ct-mes'>/mês</span><br>");
     let botao_header = $('.ct-conteudo-header').find('.ct-btn.w-button');
+    let botao_bottom = $('.ct-conteudo-header').find('.ct-btn.w-button');
     botao_header.attr("data-preco", planos[0]["valores_plano"]["valor_oferta"]);
     botao_header.attr("data-ddd", ddd);
     botao_header.attr("data-uf", uf);
     botao_header.attr("data-sku", planos[0]["sku"]);
     botao_header.attr("data-nome", planos[0]["info_plano"]["dados"]);
+
+    botao_bottom.attr("data-preco", planos[0]["valores_plano"]["valor_oferta"]);
+    botao_bottom.attr("data-ddd", ddd);
+    botao_bottom.attr("data-uf", uf);
+    botao_bottom.attr("data-sku", planos[0]["sku"]);
+    botao_bottom.attr("data-nome", planos[0]["info_plano"]["dados"]);
     
 
     wrap_box_planos = $(".ct-planos-slider").find(".ct-mask-slider").children();
