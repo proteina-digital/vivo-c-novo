@@ -188,7 +188,7 @@ function popula_cards(planos, uf, cidade, ddd) {
     $('.ct-conteudo-header').find('.ct-reais').empty().html(trata_preco_api(planos[0]["valores_plano"]["valor_oferta"])[0]);
     $('.ct-conteudo-header').find('.ct-cents').empty().html("," + trata_preco_api(planos[0]["valores_plano"]["valor_oferta"])[1] + "<span class='ct-mes'>/mês</span><br>");
     let botao_header = $('.ct-conteudo-header').find('.ct-btn.w-button');
-    let botao_bottom = $('.ct-conteudo-header').find('.ct-btn.w-button');
+    let botao_bottom = $('.ct-secao.ct-duvidas').find('.ct-btn.w-button');
     botao_header.attr("data-preco", planos[0]["valores_plano"]["valor_oferta"]);
     botao_header.attr("data-ddd", ddd);
     botao_header.attr("data-uf", uf);
