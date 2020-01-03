@@ -113,18 +113,23 @@ function removerAcentos(s) {
 function displayLocationInfo(position) {
     locationInfo = true;
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&sensor=false&key=AIzaSyDN6lma9YSGfs0oRG33hQiUaj9sydo2upc", function(data) {
-        CEP = data.results[0].address_components.filter(function(obj) {
-            return obj.types[0] == "postal_code";
-        })[0].short_name;
-        Estado = data.results[0].address_components.filter(function(obj) {
-            return obj.types[0] == "administrative_area_level_1";
-        })[0].short_name;
-        Cidade = data.results[0].address_components.filter(function(obj) {
-            return obj.types[0] == "administrative_area_level_2";
-        })[0].long_name;
-        console.log(removerAcentos(Cidade));
+        if(data.status == "OK"){
+            CEP = data.results[0].address_components.filter(function(obj) {
+                return obj.types[0] == "postal_code";
+            })[0].short_name;
+            Estado = data.results[0].address_components.filter(function(obj) {
+                return obj.types[0] == "administrative_area_level_1";
+            })[0].short_name;
+            Cidade = data.results[0].address_components.filter(function(obj) {
+                return obj.types[0] == "administrative_area_level_2";
+            })[0].long_name;
+            console.log(removerAcentos(Cidade));
 
-        get_precos(null, Estado, removerAcentos(Cidade));
+            get_precos(null, Estado, removerAcentos(Cidade));
+        }else{
+            $('#modal-ddd').css('display', 'block');
+            return false;
+        }
     });
 }
 
