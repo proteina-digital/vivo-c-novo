@@ -419,11 +419,11 @@ addEvent(document, "mouseout", function(event) {
 }, 90000);
 
 Webflow.push(function() {
-    if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(displayLocationInfo, getErrorGeoLocation);
-    }
-
-    $(".escolha-estado").append(ufs);
-    $('.escolha-estado option[value=RJ]').attr('selected', 'selected');
-    change_ufs(ddds, 'RJ');
-}); 
+    // if ('geolocation' in navigator) {
+    //     navigator.geolocation.getCurrentPosition(displayLocationInfo, getErrorGeoLocation);
+    // }
+    // $(".escolha-estado").append(ufs);
+    // $('.escolha-estado option[value=RJ]').attr('selected', 'selected');
+    // change_ufs(ddds, 'RJ');
+    get_precos(11, 'SP', null);
+  }); 
